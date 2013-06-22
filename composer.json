@@ -1,0 +1,17 @@
+{
+    "name": "phpindonesia/pintu",
+    "description": "SMS Gateway Component",
+    "license": "BSD2",
+    "autoload": {
+        "psr-0":{"Pintu":"src"}
+    },
+    "authors": [
+        {
+            "name": "PHP Indonesia",
+            "email": "developer@phpindonesia.net"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "~3"
+    }
+}
