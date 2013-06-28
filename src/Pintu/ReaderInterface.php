@@ -2,10 +2,14 @@
 
 interface ReaderInterface {
 
+	const IDENTIFIER = '+CMGL:';
+
 	/**
-	 * get the service
+	 * Parse the service into array
+	 *
+	 * @param Service
+	 * @return array
 	 */
 	public function get(Service $service);
-	
 
 }
