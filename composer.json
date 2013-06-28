@@ -7,11 +7,18 @@
     },
     "authors": [
         {
-            "name": "PHP Indonesia",
-            "email": "developer@phpindonesia.net"
+            "name": "Taufan Aditya",
+            "email": "toopay@taufanaditya.com"
+        }, {
+            "name": "Glen Mattita",
+            "email": "glend.maatita@gmail.com"
+        }, {
+            "name": "Deory Pandu",
+            "email": "deoryzpandu@gmail.com"
         }
     ],
     "require": {
-        "phpunit/phpunit": "~3"
+        "php": ">=5.3.0",
+        "ext-dio": "<=5.0.0"
     }
 }
