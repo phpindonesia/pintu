@@ -8,12 +8,12 @@ interface ServerInterface {
 	public function readInbox();
 	
 
-	public function saveInbox();
+	public function saveInbox($data);
 	
 
 	public function readOutbox();
 	
 
-	public function saveOutbox();
+	public function saveOutbox($data);
 
 }

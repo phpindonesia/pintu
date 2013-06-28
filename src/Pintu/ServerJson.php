@@ -42,6 +42,7 @@ class ServerJson implements ServerInterface {
 
 	public function saveInbox($data = array())
 	{
+		$data = (array) json_decode($data);
 		$result = $this->getStandardResult();
 
 		if (isset($data['from']) && isset($data['message']))
@@ -77,8 +78,9 @@ class ServerJson implements ServerInterface {
 	}
 	
 
-	public function saveOutbox($data = array())
+	public function saveOutbox($data)
 	{
+		$data = (array) json_decode($data);
 		$result = $this->getStandardResult();
 
 		if (isset($data['to']) && isset($data['message']))
@@ -105,16 +107,16 @@ class ServerJson implements ServerInterface {
 	{
 		$result = new \stdClass();
 		$result->status = 404;
-		$result->data = null;
+		$result->data = json_encode(array('message' => 'none'));
+
+		return $result;
 	}
 
 	protected function getFoundResult($type = self::INBOX)
 	{
 		$data = $this->read($type);
 		$result = new \stdClass();
-			
 		$result->status = 200;
-
 		$result->data = json_encode($data);
 
 		return $result;
@@ -125,9 +127,7 @@ class ServerJson implements ServerInterface {
 		$this->write($type, $data);
 
 		$result = new \stdClass();
-			
 		$result->status = 201;
-
 		$result->data = json_encode($data);
 
 		return $result;

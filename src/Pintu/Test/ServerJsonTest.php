@@ -15,10 +15,10 @@ class ServerJsonTest extends \PHPUnit_Framework_TestCase
 	public function testSaveOutbox()
 	{
 		$this->assertInstanceOf('\Pintu\ServerInterface', $this->server);
-		$result = $this->server->saveOutbox(array(
+		$result = $this->server->saveOutbox(json_encode(array(
 			'to' => '109',
 			'message' => 'Help!',
-		));
+		)));
 
 		$this->assertEquals(201, $result->status);
 	}
@@ -26,10 +26,10 @@ class ServerJsonTest extends \PHPUnit_Framework_TestCase
 	public function testSaveInbox()
 	{
 		$this->assertInstanceOf('\Pintu\ServerInterface', $this->server);
-		$result = $this->server->saveInbox(array(
+		$result = $this->server->saveInbox(json_encode(array(
 			'from' => '109',
 			'message' => 'OK FINE!',
-		));
+		)));
 
 		$this->assertEquals(201, $result->status);
 	}
@@ -46,6 +46,7 @@ class ServerJsonTest extends \PHPUnit_Framework_TestCase
 		$result = $this->server->readInbox();
 
 		$this->assertEquals(200, $result->status);
+		$this->assertTrue(is_array(json_decode($result->data)));
 	}
 
 	public function testReadOutbox()
@@ -54,5 +55,6 @@ class ServerJsonTest extends \PHPUnit_Framework_TestCase
 		$result = $this->server->readInbox();
 
 		$this->assertEquals(200, $result->status);
+		$this->assertTrue(is_array(json_decode($result->data)));
 	}
 }
