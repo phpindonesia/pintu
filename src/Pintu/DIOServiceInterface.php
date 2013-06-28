@@ -17,4 +17,9 @@ interface DIOServiceInterface
 	 * Main API
 	 */
 	public function run();
+
+	/**
+	 * Run and get the array result
+	 */
+	public function getResult();
 }

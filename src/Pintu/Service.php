@@ -11,6 +11,11 @@ class Service implements DIOServiceInterface
 	 * @var ATCommandInterface
 	 */
 	protected $command;
+
+	/**
+	* @var array
+	*/
+	protected $result;
 	
 
 	/**
@@ -34,20 +39,39 @@ class Service implements DIOServiceInterface
 
 		stream_set_blocking($stream, true);
 
-		foreach ($this->command->all() as $command => $flag) {
+		foreach ($this->command->all() as $item) {
+			$command = $item[ATCommandInterface::EXE];
+			$wait = $item[ATCommandInterface::WAIT_FOR_OK];
+			$escaped = $item[ATCommandInterface::ESCAPE];
+
 			fprintf($stream, "$command\r\n");
 
-			$flag == true and $this->wait_for_ok($stream);
+			if ($escaped) fprintf($stream, chr(26));
+			
+			if ($wait) $this->wait_for_ok($stream);
 		}
 
 		fclose($stream);
 	}
+
+	/**
+	 * Run and get the array result
+	 */
+	public function getResult()
+	{
+		$this->run();
+		
+		return $this->result;
+	}
+
 	/**
 	 * Waits for OK to be sent back by the modem.
 	 *
 	 * @param resource $f
 	 */
 	protected function get_string($f) {
+		$response = '';
+
 		do {
 			// remove carriage returns, line feeds and excess white space
 			$response = trim(str_replace(array("\r\n","\r","\n"), '', fgets($f)));
@@ -65,7 +89,8 @@ class Service implements DIOServiceInterface
 		$response = "";
 		do {
 			$response = $this->get_string($f);
-			echo "> $response\n";
+			$this->result[] = $response;
 		} while ($response != "OK");
 	}
+
 }

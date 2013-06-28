@@ -1,28 +1,29 @@
 <?php namespace Pintu\Test;
 
+use Pintu\ReaderArray;
 use Pintu\Session;
 use Pintu\Command;
 use Pintu\Service;
 use Pintu\ATCommandInterface;
 
-
-class ServiceTest extends \PHPUnit_Framework_TestCase 
+class ReaderTest extends \PHPUnit_Framework_TestCase 
 {
-	public function testRunValidService()
+	public function testRead()
 	{
+		$reader = new ReaderArray();
+
+		$this->assertInstanceOf('\Pintu\ReaderInterface', $reader);
+
 		$dsn = "dio.serial:///dev/ttyUSB0";
 
 		$session = new Session($dsn);
 		$command = new Command();
 
 		$command->setSMSTextMode();
-		$command->sendSMS('085648721439', 'Foo Bar');
 		$command->readSMS(ATCommandInterface::TYPE_ALL);
 
 		$service = new Service($session, $command);
 
-		$this->assertInstanceOf('\Pintu\DIOServiceInterface', $service);
-
-		$service->run();
+		$this->assertTrue(is_array($reader->get($service)));
 	}
 }

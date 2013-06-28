@@ -7,7 +7,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
 	public function testInitializeInvalidPort()
 	{
-		$dsn = "dio.serial:///dev/ttyUSB5";
+		$dsn = "dio.serial:///dev/ttyUSB11";
 
 		$this->setExpectedException('InvalidArgumentException', 'Cannot open file/port');
 
@@ -16,7 +16,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
 	public function testInitializeValidPort()
 	{
-		$dsn = "dio.serial:///dev/ttyUSB2";
+		$dsn = "dio.serial:///dev/ttyUSB0";
 
 		$session = Session::create($dsn);
 

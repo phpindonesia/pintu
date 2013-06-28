@@ -28,11 +28,27 @@ class Command implements ATCommandInterface
 	}
 
 	/**
+	 * Register a command
+	 *
+	 * @param string The command
+	 * @param boolean flag for CTRL-Z
+	 * @param boolean flag for wait 
+	 */
+	public function register($command = '', $escaped = false, $wait = false)
+	{
+		$this->commands[] = array(
+			self::EXE => $command,
+			self::ESCAPE => $escaped,
+			self::WAIT_FOR_OK => $wait,
+		);
+	}
+
+	/**
 	 * Set SMS Text Mode
 	 */
 	public function setSMSTextMode()
 	{
-		$this->commands['AT+CMGF=1'] = true;
+		$this->register('AT+CMGF=1', false, true);
 	}
 
 	/**
@@ -45,7 +61,18 @@ class Command implements ATCommandInterface
 	 */
 	public function sendSMS($phone_num = '', $message = '')
 	{
-		$this->commands['AT+CMGS="'.$phone_num.'"'] = false;
-		$this->commands[$message] = true;
+		$this->register('AT+CMGS="'.$phone_num.'"', false, false);
+		$this->register($message, true, true);
+	}
+
+	/**
+	 * Read SMS
+	 *
+	 * This is the main API for reading SMS
+	 *
+	 */
+	public function readSMS($type)
+	{
+		$this->register('AT+CMGL="'.$type.'"', true, true);
 	}
 }

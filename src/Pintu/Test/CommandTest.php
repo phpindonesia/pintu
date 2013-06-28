@@ -1,6 +1,7 @@
 <?php namespace Pintu\Test;
 
 use Pintu\Command;
+use Pintu\ATCommandInterface;
 
 class CommandTest extends \PHPUnit_Framework_TestCase 
 {
@@ -12,7 +13,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
 
 		$command->setSMSTextMode();
 
-		$this->assertEquals('AT+CMGF=1', key($command->all()));
+		$this->assertCount(1, $command->all());
 	}
 
 	public function testSendSMS()
@@ -24,8 +25,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
 		$commands = $command->all();
 
 		$this->assertCount(2, $commands);
-		$this->assertEquals('AT+CMGS="123"', key($commands));
-		next($commands);
-		$this->assertEquals('Some Message', key($commands));
+		$this->assertEquals('AT+CMGS="123"', $commands[0][ATCommandInterface::EXE]);
+		$this->assertEquals('Some Message', $commands[1][ATCommandInterface::EXE]);
 	}
 }
