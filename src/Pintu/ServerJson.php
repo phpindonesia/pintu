@@ -81,7 +81,8 @@ class ServerJson implements ServerInterface {
 
 	public function saveOutbox($data)
 	{
-		if (!is_array($data) $data = (array) json_decode($data);
+		if (!is_array($data)) $data = (array) json_decode($data);
+
 		$result = $this->getStandardResult();
 
 		if (isset($data['to']) && isset($data['message']))
